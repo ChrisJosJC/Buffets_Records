@@ -37,7 +37,7 @@ if (!empty($_POST)) {
 	<meta name="og:title" content="<?php echo APPTITLE ?>"/>
 	<meta name="og:image" content="<?php echo SERVERURL ?>img/private_server.png"/>
 	<!--	ICONS PAGE	-->
-	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/img/favicon/1x/favicon.png" type="image/png"/>
+	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/favicon.svg" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="194x194" href="<?php echo SERVERURL ?>img/apple-touch-icon.png" type="image/png"/>
 	<!--    NORMALIZE.CSS v8.0.1    -->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/normalize.css">
@@ -50,32 +50,7 @@ if (!empty($_POST)) {
 	<title><?php echo TITLEINDEX ?></title>
 </head>
 <body>
-	<div class="icons">
-		<?php 
-		
-		for ($i=0; $i < 20; $i++) { 
-			$selector = rand(1,3);
-			$rand = rand(160, 240);
-			$dimension = $rand."px";
-			switch ($selector) {
-			case 1:
-				echo "<i class='icon fas fa-lock' style='top: -$dimension'></i>";
-				break;
-			case 2:
-				echo "<i class='icon fas fa-server' style='top: -$dimension'></i>";
-				break;
-			case 3:
-				echo "<i class='icon fas fa-user' style='top: -$dimension'></i>";
-				break;
-			
-			default:
-				break;
-			}
-		}
-		 ?>
-	</div>
-
-	<header>Private <strong>Server<i class="fas fa-lock"></i></strong></header>
+	<header>Records <strong>Buffet<i class="fas fa-lock"></i></strong></header>
 
 	<form  method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
 		<p class="title-login"><i class="fas fa-server"></i>Log In</p>
@@ -89,7 +64,7 @@ if (!empty($_POST)) {
 
 	<footer>
 		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Brayan Joya</i>&nbsp;&copy;
+			<i>Records Buffet</i>&nbsp;&copy;
 		</a>
 	</footer>
 </body>

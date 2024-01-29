@@ -141,8 +141,8 @@ function sendMail($email, $name, $subject, $body) {
 	$mail->Host = 'smtp.gmail.com';
 	$mail->SMTPAuth = true;
 
-	$mail->Username = 'example@gmail.com';
-	$mail->Password = 'Example Password';
+	$mail->Username = 'cjmusic479@gmail.com';
+	$mail->Password = 'ktaa dfgh gdim ersm';
 
 	$mail->SMTPSecure = 'tls';
 	$mail->Port = '587';
@@ -154,7 +154,7 @@ function sendMail($email, $name, $subject, $body) {
     	)
 	);
 
-	$mail->setFrom('example@gmail.com', 'Private Server');
+	$mail->setFrom('chrisjoseph380@gmail.com', 'Private Server');
 	$mail->addAddress($email, $name);
 
 	$mail->isHTML(true);

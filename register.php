@@ -27,7 +27,7 @@ if (!empty($_POST)) {
 	$name = $mysqli->real_escape_string($_POST['name']);
 	$email = $mysqli->real_escape_string($_POST['email']);	
 	$activo = 0;
-	$type_user = 2;
+	$type_user = $_POST['role'];
 
 	if (!isNullRegister($user, $password, $confirmPassword, $name, $email)) {
 
@@ -76,7 +76,7 @@ if (!empty($_POST)) {
 					echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'pages/success.php?success=true&mail='.$email.'">';
 					die();
 				} else {
-					$errors[] = "Failed to send email, but corret register contact the administrator";
+					$errors[] = "Failed to send email, but correct register contact the administrator";
 				}
 
 			} else {
@@ -106,7 +106,7 @@ if (!empty($_POST)) {
 	<meta name="og:title" content="<?php echo APPTITLE ?>"/>
 	<meta name="og:image" content="<?php echo SERVERURL ?>img/private_server.png"/>
 	<!--	ICONS PAGE	-->
-	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/img/favicon/1x/favicon.png" type="image/png"/>
+	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/favicon.svg" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="194x194" href="<?php echo SERVERURL ?>img/apple-touch-icon.png" type="image/png"/>
 	<!--    NORMALIZE.CSS v8.0.1    -->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/normalize.css">
@@ -119,38 +119,20 @@ if (!empty($_POST)) {
 	<title><?php echo TITLEREGISTER ?></title>
 </head>
 <body>
-	<div class="icons">
-		<?php 
-		
-		for ($i=0; $i < 20; $i++) { 
-			$selector = rand(1,3);
-			$rand = rand(200, 280);
-			$dimension = $rand."px";
-			switch ($selector) {
-			case 1:
-				echo "<i class='icon fas fa-lock' style='top: -$dimension'></i>";
-				break;
-			case 2:
-				echo "<i class='icon fas fa-server' style='top: -$dimension'></i>";
-				break;
-			case 3:
-				echo "<i class='icon fas fa-user' style='top: -$dimension'></i>";
-				break;
-			
-			default:
-				break;
-			}
-		}
-		 ?>
-	</div>
 
-	<header>Private <strong>Server<i class="fas fa-lock"></i></strong></header>
+
+	<header>Records <strong>Buffet<i class="fas fa-lock"></i></strong></header>
 
 	<form  method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
 		<p class="title-login"><i class="fas fa-server"></i>Register</p>
 		<input type="text" name="name" id="name" required autocomplete="off" placeholder="Name" value="<?php echo $name ?>">
 		<input type="text" name="user" id="user" required autocomplete="off" placeholder="Username" value="<?php echo $user ?>">
 		<input type="email" name="email" id="email" required autocomplete="off" placeholder="Email" value="<?php echo $email ?>">
+		<select name="role" id="role">
+			<option value="1">Admin</option>
+			<option selected value="2">Abogado</option>
+			<option value="3">Secretaria</option>
+		</select>
 		<input type="password" name="password" id="password" required autocomplete="off" placeholder="Password">
 		<input type="password" name="confirmPassword" id="confirmPassword" required autocomplete="off" placeholder="Confirm Password">
 		<input type="submit" value="Register" id="Register">	
@@ -161,7 +143,7 @@ if (!empty($_POST)) {
 
 	<footer>
 		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Brayan Joya</i>&nbsp;&copy;
+			<i>Records Buffet</i>&nbsp;&copy;
 		</a>
 	</footer>
 </body>

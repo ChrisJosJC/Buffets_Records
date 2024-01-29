@@ -12,6 +12,26 @@ function subname($str) {
 	return $str;
 }
 
+function getAllFiles($index) {
+
+	global $mysqli;
+
+	$rows = null;
+
+	$stmt = $mysqli->prepare("SELECT * FROM files WHERE fld = ?");
+	$stmt->bind_param('s',$index);
+
+	$stmt->execute();
+	$result = $stmt->get_result();
+
+	while ($file = $result->fetch_assoc()) {
+		
+		$rows[] =  $file;
+	}
+
+	return $rows;
+}
+
 function getFiles($index) {
 
 	global $mysqli;
@@ -33,6 +53,24 @@ function getFiles($index) {
 	return $rows;
 }
 
+function getAllFolders($index) {
+
+	global $mysqli;
+
+	$rows = null;
+
+	$stmt = $mysqli->prepare("SELECT * FROM folders WHERE fld = ?");
+	$stmt->bind_param('s', $index);
+	$stmt->execute();
+	$result = $stmt->get_result();
+
+	while ($file = $result->fetch_assoc()) {
+		
+		$rows[] =  $file;
+	}
+
+	return $rows;
+}
 function getFolder($index) {
 
 	global $mysqli;
@@ -234,10 +272,14 @@ function validateFileUser($cid) {
 	$num = $stmt->num_rows;
 	$stmt->close();
 
-	if($num > 0) {
-		return true;
+	if($_SESSION['id_tipo'] == 2){
+		if($num > 0) { 
+			return true;
+		} else {
+			return false;
+		}
 	} else {
-		return false;
+		return true;
 	}
 }
 
@@ -250,13 +292,18 @@ function validateFolderUser($cid) {
 	$stmt->bind_param("si", $cid, $_SESSION['id']);
 	$stmt->execute();
 	$stmt->store_result();
-	$num = $stmt->num_rows;
+	$num = $stmt->num_rows; 
 	$stmt->close();
 
-	if($num > 0) {
-		return true;
+	if($_SESSION['id_tipo'] == 2){
+		if($num > 0) {
+			return true;
+		} else {
+			return false;
+			
+		}
 	} else {
-		return false;
+		return true;
 	}
 }
 

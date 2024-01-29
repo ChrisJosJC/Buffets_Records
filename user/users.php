@@ -32,7 +32,8 @@ $users = getUsers();
 	<meta name="og:title" content="<?php echo APPTITLE ?>"/>
 	<meta name="og:image" content="<?php echo SERVERURL ?>img/private_server.png"/>
 	<!--	ICONS PAGE	-->
-	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/img/favicon/1x/favicon.png" type="image/png"/>
+		<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>favicon.svg" >
+
 	<link rel="apple-touch-icon" sizes="194x194" href="<?php echo SERVERURL ?>img/apple-touch-icon.png" type="image/png"/>
 	<!--    NORMALIZE.CSS v8.0.1    -->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/normalize.css">
@@ -114,9 +115,9 @@ $users = getUsers();
 						<p>TypeUser:&nbsp;&nbsp; <?php if ($user['id_tipo'] == 1) {
 															$TypeUser = 'Admin';				
 														} else if($user['id_tipo'] == 2) {
-															$TypeUser = 'User';
+															$TypeUser = 'Abogado';
 														} elseif ($user['id_tipo']) {
-															$TypeUser = 'Public';
+															$TypeUser = 'Secretaria';
 														}
 														echo $TypeUser;
 												?></p>

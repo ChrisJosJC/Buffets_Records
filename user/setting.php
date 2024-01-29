@@ -181,7 +181,7 @@ if (isset($_POST['Change'])) {
 	<meta name="og:title" content="<?php echo APPTITLE ?>"/>
 	<meta name="og:image" content="<?php echo SERVERURL ?>img/private_server.png"/>
 	<!--	ICONS PAGE	-->
-	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/img/favicon/1x/favicon.png" type="image/png"/>
+	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/favicon.svg" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="194x194" href="<?php echo SERVERURL ?>img/apple-touch-icon.png" type="image/png"/>
 	<!--    NORMALIZE.CSS v8.0.1    -->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/normalize.css">
@@ -229,7 +229,7 @@ if (isset($_POST['Change'])) {
 	<input type="checkbox" name="btnuserImage" id="btnuserImage">
 	
 	<section class="header">
-		<header><label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Private <strong>Server<i class="fas fa-lock"></i></strong></span></header>
+		<header><label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Records <strong>Buffet<i class="fas fa-lock"></i></strong></span></header>
 		
 		<div class="userImage">
 			<label for="btnuserImage" id="labeluserImage">
@@ -295,7 +295,7 @@ if (isset($_POST['Change'])) {
 	
 	<footer>
 		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Brayan Joya</i>&nbsp;&copy;
+			<i>Records Buffet</i>&nbsp;&copy;
 		</a>
 	</footer>
 

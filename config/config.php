@@ -2,15 +2,15 @@
 
 
 	/*	 Urls 	*/
-	define('SERVERURL', 'http://localhost/PrivateServer/');
+	define('SERVERURL', 'http://localhost:8000/');
 	define('MYWEB', 'https://brayanjoya.github.io/home/');
 	/*	 App Theme color 	*/
 	define('THEMECOLOR', '#49e');
 	/*		Meta Seo 	*/
-	define('APPTITLE', 'Brayan joya private web server');
-	define('APPDESCRIPTION', 'private_server - Brayan Joya');
+	define('APPTITLE', 'Buffets Records.');
+	define('APPDESCRIPTION', 'Buffets Records - Chris Joseph');
 	/*	 Pages Titles 	*/
-	define('TITLEHOME', 'Home | Private server');
+	define('TITLEHOME', 'Home | Buffets Records');
 	define('TITLEINDEX', 'Start | log in to your server');
 	define('TITLEREGISTER', 'Register | Register user');
 
@@ -18,8 +18,8 @@
 	/*	 Data Base 	 */
 	define('HOST', 'localhost');
 	define('DBUSER', 'root');
-	define('DBPASSWORD', '');
-	define('DBNAME', 'private_server');
+	define('DBPASSWORD', '1234');
+	define('DBNAME', 'bufete');
 	
 	
 	

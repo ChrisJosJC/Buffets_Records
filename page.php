@@ -13,12 +13,6 @@ if (!validateSession()) {
 } 
 
 
-if (validatePublic()) {
-	
-	echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'index.php">';
-	die();
-}
-
 $filesUser = "";
 $foldersUser = "";
 
@@ -29,6 +23,10 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 
 	$filesUser = getFiles($index);
 	$foldersUser = getFolder($index);
+	if($_SESSION['id_tipo']!=2){
+		$filesUser= getAllFiles($index);
+		$foldersUser = getAllFolders($index);
+	}
 
 	if (!folderExist($index)) {
 		echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'document/404.php">';
@@ -50,7 +48,6 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 			$index = $mysqli->real_escape_string($_POST['index']);
 
 		 	addFile($file, $index);
-			
 		}
 	} elseif (isset($_POST['CreateFolder'])) {
 
@@ -81,7 +78,7 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 	<meta name="og:title" content="<?php echo APPTITLE ?>"/>
 	<meta name="og:image" content="<?php echo SERVERURL ?>img/private_server.png"/>
 	<!--	ICONS PAGE	-->
-	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/img/favicon/1x/favicon.png" type="image/png"/>
+	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>favicon.svg" >
 	<link rel="apple-touch-icon" sizes="194x194" href="<?php echo SERVERURL ?>img/apple-touch-icon.png" type="image/png"/>
 	<!--    NORMALIZE.CSS v8.0.1    -->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/normalize.css">
@@ -93,7 +90,7 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>plugins/fontawesome-free/css/all.min.css">
 	<!--    SCRIPT JS    --->
 	<script src="<?php echo SERVERURL ?>js/script.js"></script>
-	<title>Folder</title>
+	<title>Folder de <?php echo $name; ?></title>
 </head>
 <body >
 
@@ -129,7 +126,7 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 	<input type="checkbox" name="btnuserImage" id="btnuserImage">
 	
 	<section class="header">
-		<header><label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Private <strong>Server<i class="fas fa-lock"></i></strong></span></header>
+		<header><label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Records <strong>Buffet<i class="fas fa-lock"></i></strong></span></header>
 		
 		<div class="userImage">
 			<label for="btnuserImage" id="labeluserImage">
@@ -195,8 +192,9 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 							<span><?php echo subname($folder['name']); ?></span>
 							<div class="files-options">
 								<a href="<?php echo SERVERURL;?>service/downloadFolder.php?cid=<?php echo $folder['cid']?>"><i class="fas fa-download"></i></a>
-								<a href="<?php echo SERVERURL;?>service/share.php?cid=<?php echo $folder['cid']?>"><i class="far fa-share-square"></i></a>
-								<a href="<?php echo SERVERURL;?>service/deleteFolder.php?cid=<?php echo $folder['cid']?>"><i class="far fa-trash-alt"></i></a>
+								<?php if ($_SESSION['id_tipo']!=3) { ?>
+									<a href="<?php echo SERVERURL;?>service/deleteFolder.php?cid=<?php echo $folder['cid']?>"><i class="far fa-trash-alt"></i></a>
+								<?php } ?>
 							</div>
 						</div>
 					</a>
@@ -217,8 +215,9 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 							<span><?php echo subname($file['name'])  ?></span>
 							<div class="files-options">
 								<a href="<?php echo SERVERURL;?>service/download.php?type=<?php echo $file['extension'] ?>&cid=<?php echo $file['cid']  ?>"><i class="fas fa-download"></i></a>
-								<a href="<?php echo SERVERURL;?>service/share.php?type=<?php echo $file['extension'] ?>&cid=<?php echo $file['cid']  ?>"><i class="far fa-share-square"></i></a>
-								<a href="<?php echo SERVERURL;?>service/delete.php?type=<?php echo $file['extension'] ?>&cid=<?php echo $file['cid']  ?>"><i class="far fa-trash-alt"></i></a>
+								<?php if ($_SESSION['id_tipo']!=3) { ?>
+									<a href="<?php echo SERVERURL;?>service/delete.php?type=<?php echo $file['extension'] ?>&cid=<?php echo $file['cid']  ?>"><i class="far fa-trash-alt"></i></a>
+								<?php } ?>
 							</div>
 						</div>
 					</a>
@@ -230,7 +229,7 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 	
 	<footer>
 		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Brayan Joya</i>&nbsp;&copy;
+			<i>Records Buffet</i>&nbsp;&copy;
 		</a>
 	</footer>
 

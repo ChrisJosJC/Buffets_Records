@@ -38,7 +38,7 @@ if(isset($_GET['success']) && isset($_GET['mail']) && !empty($_GET['success']) &
 	<meta name="og:title" content="Brayan joya private web server"/>
 	<meta name="og:image" content="https://brayanjoya.000webhostapp.com/private_server.png"/>
 	<!--	ICONS PAGE	-->
-	<link id="favicon" rel="shortcut icon" href="/img/favicon/1x/favicon.png" type="image/png"/>
+	<link id="favicon" rel="shortcut icon" href="/favicon.svg" type="image/png"/>
 	<link rel="apple-touch-icon" sizes="194x194" href="/apple-touch-icon.png" type="image/png"/>
 	<!--    NORMALIZE.CSS v8.0.1    -->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/normalize.css">
@@ -77,13 +77,13 @@ if(isset($_GET['success']) && isset($_GET['mail']) && !empty($_GET['success']) &
 		 ?>
 	</div>
 
-	<header>Private <strong>Server<i class="fas fa-lock"></i></strong></header>
+	<header>Records <strong>Buffet<i class="fas fa-lock"></i></strong></header>
 
 	<h4><?php echo $msg; ?></h4>
 
 	<footer>
 		<a href="https://brayanjoya.github.io/Tarjeta/" target="_BLANK">
-			<i>Brayan Joya</i>&nbsp;&copy;
+			<i>Records Buffet</i>&nbsp;&copy;
 		</a>
 	</footer>
 </body>
