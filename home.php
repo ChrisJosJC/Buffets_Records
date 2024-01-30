@@ -16,8 +16,22 @@ $index = "root";
 
 $filesUser = getFiles($index);
 $foldersUser = getFolder($index);
-$AllFiles = getAllFiles($index);
-$AllFolders = getAllFolders($index);
+if (isset($_GET['categoria']) && !empty($_GET['estado'])) {
+	$cat = $_GET['categoria'];
+	$state = $_GET['estado'];
+	
+	if($_SESSION['id_tipo']!=2){
+		// $filesUser= getAllFiles($index);
+		$filesUser=[];
+		$foldersUser = getAllFolders($index, $cat, $state);
+	}
+}else {
+	if($_SESSION['id_tipo']!=2){
+		$filesUser= getAllFiles($index);
+		$foldersUser = getAllFolders($index);
+	}
+}
+
 
 if (isset($_POST['AddFile'])) {
 		
@@ -33,13 +47,10 @@ if (isset($_POST['AddFile'])) {
 if (isset($_POST['CreateFolder'])) {
 
 	$nameFolder =  $mysqli->real_escape_string($_POST['folder']);
+	$estado =  $mysqli->real_escape_string($_POST['estado']);
+	$categoria =  $mysqli->real_escape_string($_POST['categoria']);
 		
-	createFolder($nameFolder, $index);
-	?>
-	<script defer>
-	console.log('Probando');
-	appendAlert('Your folder has been created succesfully!', 'success')</script>
-<?php
+	createFolder($nameFolder, $index,$estado,$categoria);
 }
 
 ?>
@@ -66,13 +77,11 @@ if (isset($_POST['CreateFolder'])) {
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/elements.css">
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/scrollbar.css">
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/home.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 	<!--	ICONS fontawesome-free	-->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>plugins/fontawesome-free/css/all.min.css">
 	<!--    SCRIPT JS    --->
 	<script src="<?php echo SERVERURL ?>js/script.js"></script>
 	<title><?php echo TITLEHOME ?></title>
-	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body >
 
@@ -82,13 +91,37 @@ if (isset($_POST['CreateFolder'])) {
 		<nav>
 			<ul>
 				<?php if ($_SESSION['id_tipo'] == 3) { ?>
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>home.php" class="navActive"><i class="far fa-file"></i><span>My files</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>exit.php"><i class="fas fa-sign-out-alt"></i><span>Exit</span></a></li>
 				<?php } ?>
 
 				<?php if ($_SESSION['id_tipo'] == 1 || $_SESSION['id_tipo'] == 2) { ?>
-
-				<li><a href="<?php echo SERVERURL; ?>home.php" class="navActive"><i class="far fa-file"></i><span>My files</span></a></li>
+					<details>
+						<summary>Buscar detalles del caso</summary>
+						<form action="<?php echo SERVERURL; ?>home.php" method="get">
+							<label for="estado">Estado del caso
+							<select name="estado" id="estado">
+								<option value="Abierto">Abierto</option>
+								<option value="Cerrado">Cerrado</option>
+								<option value="Congelado">Congelado</option>
+								<option value="Pendiente">Pendiente</option>
+							</select>
+						</label>
+							<label for="estado">Categoria del caso
+							<select name="categoria" id="categoria">
+								<option value="Judicial">Judicial</option>
+								<option value="Divorcio">Divorcio</option>
+								<option value="Violentos">Violentos</option>
+								<option value="Menores">Menores</option>
+								<option value="Entre otros">Entre otros</option>
+							</select></label>
+							<a id="cancelBtn" href="home.php">Cancelar</a>
+							<input id="searchBtn" type="submit" value="Buscar">
+						</form>
+					</details>
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php" ><i class="fas fa-chart-line"></i></i><span>Dashboard</span></a></li>
+					<li><a href="<?php echo SERVERURL; ?>home.php" class="navActive"><i class="far fa-file"></i><span>My files</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>user/account.php"><i class="far fa-user"></i><span>Account</span></a></li>
 				<?php if ($_SESSION['id_tipo'] == 1) { ?>
 				<li><a href="<?php echo SERVERURL; ?>register.php"><i class="fas fa-user-plus"></i><span>Register User</span></a></li>
@@ -107,7 +140,8 @@ if (isset($_POST['CreateFolder'])) {
 	<input type="checkbox" name="btnuserImage" id="btnuserImage">
 	
 	<section class="header">
-		<header><label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Records <strong>Buffets<i class="fas fa-lock"></i></strong></span></header>
+		<header><button onClick="history_back()"><i class="fas fa-arrow-left"></i></button>
+   <label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Records <strong>Buffet<i class="fas fa-lock"></i></strong></span></header>
 		
 		<div class="userImage">
 			<label for="btnuserImage" id="labeluserImage">
@@ -149,6 +183,22 @@ if (isset($_POST['CreateFolder'])) {
 					<label for="btnnewFolder">✖</label>
 					<p class="title-login"><i class="fas fa-folder"></i>New folder</p>
 					<input type="text" name="folder" id="folder" required>
+					<label for="estado">Estado del caso
+							<select name="estado" id="estado">
+								<option value="Abierto">Abierto</option>
+								<option value="Cerrado">Cerrado</option>
+								<option value="Congelado">Congelado</option>
+								<option value="Pendiente">Pendiente</option>
+							</select>
+						</label>
+							<label for="estado">Categoria del caso
+							<select name="categoria" id="categoria">
+								<option value="Judicial">Judicial</option>
+								<option value="Divorcio">Divorcio</option>
+								<option value="Violentos">Violentos</option>
+								<option value="Menores">Menores</option>
+								<option value="Entre otros">Entre otros</option>
+							</select></label>
 					<input type="submit" value="Create Folder" name="CreateFolder">
 				</form>	
 			</div>	
@@ -159,8 +209,8 @@ if (isset($_POST['CreateFolder'])) {
 
 	<section class="files">
 		<?php if ($_SESSION['id_tipo'] != 2){ ?>
-			<?php if ($AllFolders != null){ ?>
-			<?php foreach ($AllFolders as $folder ){ ?>
+			<?php if ($foldersUser != null){ ?>
+			<?php foreach ($foldersUser as $folder ){ ?>
 
 				<?php if ($folder['name'] != "root") { ?>
 					<article class="cardfolder">
@@ -224,7 +274,6 @@ if (isset($_POST['CreateFolder'])) {
 				</article>	
 
 		<?php }}} ?>
-		</section>
 
 		<?php if ($filesUser != null){ ?>
 			<?php foreach ($filesUser as $file ){ ?>
@@ -247,15 +296,14 @@ if (isset($_POST['CreateFolder'])) {
 		
 	</section> 
 	<footer>
-		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Buffets Records</i>&nbsp;&copy;
-		</a>
+		 
 	</footer>
 </div>
+<script>
+	        function history_back() {
+            window.history.back();
+        } 
 
-<div id="liveAlertPlaceholder"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+</script>
 </body>
 </html>

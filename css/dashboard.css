@@ -1,0 +1,68 @@
+.dash {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    left: 250px;
+    top: 84px;
+    padding: 20px;
+    width: 75%;
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .data {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        height: 100px;
+        gap: 10px;
+
+        article {
+            background: #49f;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 4px;
+            max-height: 85px;
+
+            h3 {
+                display: flex;
+                flex-direction: column;
+                font-size: 1rem;
+                color: #fffb;
+
+                strong {
+                    font-size: 2rem;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+.chart {
+    margin-top: 40px;
+}
+
+.btn-success {
+    text-decoration: none;
+    background-color: #49f;
+    padding: 15px 8px;
+    border-radius: 4px;
+    width: 100%;
+    color: white;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: background 100ms ease-in;
+
+    display: flex;
+    justify-content: space-between;
+
+    i {
+        margin-right: 10px;
+    }
+
+    &:hover {
+        background-color: #12529f;
+    }
+}

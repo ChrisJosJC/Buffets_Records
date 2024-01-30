@@ -45,7 +45,7 @@ if(isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['token']) && !empty(
 
 		if (userExistIdToken($userId, $token)) {
 
-			$typeUser = $typeUser == "Admin" ? 1 : 2;
+			$typeUser = $typeUser == "Admin" ? 1 : $typeUser == "Abogado" ? 2 : 3;
 			$Activate = $Activate == "Active" ? 1 : 0;
 
 			if (editUser($userId, $token, $typeUser, $Activate)) {
@@ -111,11 +111,14 @@ if(isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['token']) && !empty(
 		<select name="typeUser" >
 			<option value="<?php echo $typeUser?>"><?php echo $typeUser?></option>
 			<?php if ($typeUser == "Admin"){ ?>
-				<option value="User">User</option>
+				<option value="Abogado">Abogado</option>
 				
-			<?php } else { ?>
+			<?php } else if($typeUser == "Abogado") { ?>
 
 				<option value="Admin">Admin</option>
+			<?php } else {?>
+
+				<option value="Secretaria">Secretaria</option>
 			<?php }?>
 
 		</select>
@@ -138,9 +141,7 @@ if(isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['token']) && !empty(
 	<hr>
 
 	<footer>
-		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Records Buffet</i>&nbsp;&copy;
-		</a>
+		 
 	</footer>
 </body>
 </html>

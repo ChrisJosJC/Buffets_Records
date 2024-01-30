@@ -1,21 +1,41 @@
 <?php  
 session_start();
 
-require '../config/config.php';
-require '../funcs/conexion.php';
-require '../funcs/funcs.php';
+require 'config/config.php';
+require 'funcs/conexion.php';
+require 'funcs/funcs.php';
+require 'funcs/files.php';
 
 if (!validateSession()) {
 
 	echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'index.php">';
 	die();
-
 } 
 
-if (validatePublic()) {
-	
-	echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'index.php">';
-	die();
+$index = "root";
+
+$filesUser = getFiles($index);
+$foldersUser = getFolder($index);
+$AllFiles = getAllFiles($index);
+$AllFolders = getAllFolders($index);
+$Stats = getStats();
+
+if (isset($_POST['AddFile'])) {
+		
+	if ($_FILES) {
+			
+		$file = $_FILES;
+
+		addFile($file, $index);
+			
+	}
+}
+
+if (isset($_POST['CreateFolder'])) {
+
+	$nameFolder =  $mysqli->real_escape_string($_POST['folder']);
+		
+	createFolder($nameFolder, $index);
 }
 
 ?>
@@ -33,14 +53,16 @@ if (validatePublic()) {
 	<meta name="og:title" content="<?php echo APPTITLE ?>"/>
 	<meta name="og:image" content="<?php echo SERVERURL ?>img/private_server.png"/>
 	<!--	ICONS PAGE	-->
-	<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>/favicon.svg" type="image/png"/>
+		<link id="favicon" rel="shortcut icon" href="<?php echo SERVERURL ?>favicon.svg" >
+
 	<link rel="apple-touch-icon" sizes="194x194" href="<?php echo SERVERURL ?>img/apple-touch-icon.png" type="image/png"/>
 	<!--    NORMALIZE.CSS v8.0.1    -->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/normalize.css">
 	<!--    CUSTOM CSS    -->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/elements.css">
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/scrollbar.css">
-	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/account.css">
+	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/home.css">
+	<link rel="stylesheet" href="<?php echo SERVERURL ?>css/dashboard.css">
 	<!--	ICONS fontawesome-free	-->
 	<link rel="stylesheet" href="<?php echo SERVERURL ?>plugins/fontawesome-free/css/all.min.css">
 	<!--    SCRIPT JS    --->
@@ -52,19 +74,19 @@ if (validatePublic()) {
 	<input type="checkbox" name="btnnavbar" id="btnnavbar">
 
 	<aside class="navbar">
-		
 		<nav>
 			<ul>
 				<?php if ($_SESSION['id_tipo'] == 3) { ?>
-					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php"  class="navActive"><i class="fas fa-chart-line"></i></i><span>Dashboard</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>exit.php"><i class="fas fa-sign-out-alt"></i><span>Exit</span></a></li>
 				<?php } ?>
 
 				<?php if ($_SESSION['id_tipo'] == 1 || $_SESSION['id_tipo'] == 2) { ?>
-					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
+
+				<li><a href="<?php echo SERVERURL; ?>dashboard.php" class="navActive" class="navActive"><i class="fas fa-chart-line"></i></i><span>Dashboard</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
-				<li><a href="<?php echo SERVERURL; ?>user/account.php" class="navActive"><i class="far fa-user"></i><span>Account</span></a></li>
+				<li><a href="<?php echo SERVERURL; ?>user/account.php"><i class="far fa-user"></i><span>Account</span></a></li>
 				<?php if ($_SESSION['id_tipo'] == 1) { ?>
 				<li><a href="<?php echo SERVERURL; ?>register.php"><i class="fas fa-user-plus"></i><span>Register User</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>user/users.php"><i class="fas fa-users"></i><span>Users</span></a></li>
@@ -97,35 +119,61 @@ if (validatePublic()) {
 			</div>
 		</div>
 	</section>
-
-	<section class="files">
-
-		<div class="info">
-			<div class="imageUser">
-				<img src="<?php echo SERVERURL.$_SESSION['image']?>">	
-			</div>
-
-			<div class="infoUser">
-
-				<p><span><?php echo "Name: "?></span><span><?php echo subUser($_SESSION['name']);?></span></p>
-				<p><span><?php echo "User: "?></span><span><?php echo subUser($_SESSION['user'])?></span></p>
-				<p><span><?php echo "Email: "?></span><span><?php echo subEmail($_SESSION['email']);?></span></p>
-				<p><span><?php echo "Password: "?></span><span><?php echo "********";?></span></p>
-				<a href="<?php echo SERVERURL?>user/setting.php" class="btn">Edit Info</a>
-				
-			</div>
-			
-
-		</div>
-
-		
-			
-		
-	</section> 
 	
-	<footer>
-		 
-	</footer>
+    <main class="dash">
+        <h2>Estadisticas recientes</h2>
+        <section class="data">
+            <?php 
+            $i = -1;
+            $list_names = ["Casos registrados", "Usuarios","Descargas","Casos Resueltos"];
+            foreach ($Stats as $stat) { 
+                $i=$i+1; ?>
+                <article>
+                    <h3>
+                        <strong><?php echo $stat ?></strong>
+                        <?php echo $list_names[$i] ?>
+                    </h3>
+                </article>
+            <?php }?>
+        </section>
 
+        <div class="chart">
+  <canvas id="myChart"></canvas>
+</div>
+
+<a href="fpdf/reporte.php" class="btn btn-success">Generar reporte<i class="fas fa-file-pdf"></i></a>
+    </main>
+
+
+	<script src="/js/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ["Casos registrados", "Usuarios","Descargas","Casos Resueltos"],
+      datasets: [{
+        label: '# of Votes',
+        data: [<?php foreach ($Stats as $val) {echo $val.",";} ?>],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  function history_back() {
+            window.history.back();
+        } 
+
+</script>
+</div>
 </body>
 </html>

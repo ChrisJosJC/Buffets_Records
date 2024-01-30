@@ -63,9 +63,7 @@ if (!empty($_POST)) {
 	<hr>
 
 	<footer>
-		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Records Buffet</i>&nbsp;&copy;
-		</a>
+		 
 	</footer>
 </body>
 </html>

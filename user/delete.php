@@ -110,9 +110,7 @@ if(isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['token']) && !empty(
 	</form>	
 
 	<footer>
-		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Records Buffet</i>&nbsp;&copy;
-		</a>
+		 
 	</footer>
 </body><body>
 	

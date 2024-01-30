@@ -135,16 +135,19 @@ if (!empty($_POST)) {
 		</select>
 		<input type="password" name="password" id="password" required autocomplete="off" placeholder="Password">
 		<input type="password" name="confirmPassword" id="confirmPassword" required autocomplete="off" placeholder="Confirm Password">
+		<div class="buttons">
+		<input type="button" onClick="history_back()" class="cancel" value="Cancel">
 		<input type="submit" value="Register" id="Register">	
+		</div>
 		<?php echo blockErrors($errors);  ?>
 	</form>	
 
 	<hr>
 
-	<footer>
-		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Records Buffet</i>&nbsp;&copy;
-		</a>
-	</footer>
+	<script>
+        function history_back() {
+            window.history.back();
+        } 
+    </script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 @font-face {
-    font-family: "myfont";
-    src: url('../fonts/Darker_Grotesque/DarkerGrotesque-Medium.ttf');
+	font-family: "myfont";
+	src: url('../fonts/Darker_Grotesque/DarkerGrotesque-Medium.ttf');
 }
 
 html {
 
 	font-size: 16px;
-	font-family: Century Gothic, "myfont", "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+	font-family: Century Gothic, "myfont", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	font-weight: 400;
 }
 
@@ -63,13 +63,13 @@ strong {
 	padding: 0 12px;
 }
 
-.userImage > label:hover {
+.userImage>label:hover {
 
 	cursor: pointer;
 	color: #555;
 }
 
-.userImage > img {
+.userImage>img {
 
 	margin-left: 12px;
 	width: 40px;
@@ -98,7 +98,7 @@ strong {
 
 .userImage-options i {
 
-	margin-left: 10px; 
+	margin-left: 10px;
 }
 
 .userImage-options a {
@@ -112,7 +112,7 @@ strong {
 	text-decoration: 2px underline #49e;
 }
 
-#btnuserImage:checked + section .userImage .userImage-options {
+#btnuserImage:checked+section .userImage .userImage-options {
 
 	display: inline-block;
 }
@@ -137,7 +137,19 @@ strong {
 	overflow: auto;
 	box-shadow: 10px 20px 20px #ddd7;
 	z-index: 2;
-	
+
+}
+
+.navbar {
+	align-items: flex-start !important;
+}
+
+header button {
+	background-color: transparent;
+	outline: none;
+	border: none;
+	margin-right: -12px;
+	cursor: pointer;
 }
 
 .navbar nav {
@@ -145,7 +157,7 @@ strong {
 	margin-top: 120px;
 }
 
-.navbar nav ul   {
+.navbar nav ul {
 
 	list-style-type: none;
 	margin: 0;
@@ -171,7 +183,7 @@ strong {
 }
 
 .navbar nav ul li a:hover {
-	
+
 	background-color: #8884;
 	border-radius: 8px;
 }
@@ -197,8 +209,8 @@ footer {
 	cursor: pointer;
 }
 
-footer > a {
-	
+footer>a {
+
 	text-decoration: none;
 	color: #49e;
 }
@@ -225,41 +237,34 @@ footer:hover {
 		visibility: hidden;
 	}
 
-	#btnnavbar:checked + .navbar {
+	#btnnavbar:checked+.navbar {
 
 		display: inline-block;
 		visibility: visible;
-	} 
-
-
-@media screen and (max-width: 360px) {
-
-	header > span {
-		display: none;
-	}
-
-	header {
-		font-size: 1.2rem;
-	}
-}
-
-@media screen and (max-width: 300px) {
-
-	header > span {
-		display: none;
-	}
-
-	.userImage-options {
-
-		font-size: .8rem;
 	}
 
 
-}
+	@media screen and (max-width: 360px) {
+
+		header>span {
+			display: none;
+		}
+
+		header {
+			font-size: 1.2rem;
+		}
+	}
+
+	@media screen and (max-width: 300px) {
+
+		header>span {
+			display: none;
+		}
+
+		.userImage-options {
+
+			font-size: .8rem;
+		}
 
 
-
-
-
-
-
+	}

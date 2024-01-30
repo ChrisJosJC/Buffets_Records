@@ -53,14 +53,21 @@ function getFiles($index) {
 	return $rows;
 }
 
-function getAllFolders($index) {
+function getAllFolders($index,$cat='NULL',$state='NULL') {
 
 	global $mysqli;
 
 	$rows = null;
-
-	$stmt = $mysqli->prepare("SELECT * FROM folders WHERE fld = ?");
-	$stmt->bind_param('s', $index);
+	$stmt = null;
+	if ($cat=='NULL' && $state == 'NULL') {
+		$stmt = $mysqli->prepare("SELECT * FROM folders WHERE fld = ?");
+		$stmt->bind_param('s', $index);
+		
+	} else {
+		$stmt = $mysqli->prepare("SELECT * FROM folders WHERE fld = ? AND categoria = ? AND estado = ?");
+		$stmt->bind_param('sss', $index,$cat,$state);
+	}
+	
 	$stmt->execute();
 	$result = $stmt->get_result();
 
@@ -90,6 +97,23 @@ function getFolder($index) {
 	}
 
 	return $rows;
+}
+function getStats() {
+
+	global $mysqli;
+
+	$rows = null;
+
+	$stmt = $mysqli->prepare("SELECT casos_registrados, nuevos_usuarios, descargas, casos_resueltos FROM bufete.estadisticas where id=1");
+	$stmt->execute();
+	$result = $stmt->get_result();
+
+	while ($file = $result->fetch_assoc()) {
+		
+		$rows[] =  $file;
+	}
+
+	return $rows[0];
 }
 
 function addFile($file, $index) {
@@ -162,7 +186,7 @@ function addFile($file, $index) {
 	return $errors;	
 }
 
-function createFolder($folderName, $index) {
+function createFolder($folderName, $index,$estado,$categoria) {
 
 	global $mysqli;
 
@@ -188,8 +212,8 @@ function createFolder($folderName, $index) {
 
 		if (mkdir($targetDirCreate)) {
 				
-			$stmt = $mysqli->prepare("INSERT INTO folders (fld, url, name, id_user, token_user, cid) VALUES (?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param('sssiss', $index, $targetDirCreate, $folderName, $_SESSION['id'], $token, $cid);
+			$stmt = $mysqli->prepare("INSERT INTO folders (fld, url, name, id_user, token_user, cid,estado,categoria) VALUES (?, ?, ?, ?, ?, ?,?,?)");
+			$stmt->bind_param('sssissss', $index, $targetDirCreate, $folderName, $_SESSION['id'], $token, $cid, $estado,$categoria);
 			$stmt->execute();
 
 			if ($index == "root") {
@@ -334,8 +358,8 @@ function deleteFoldersDB($cid) {
 	}
 
 	
-	$stmt = $mysqli->prepare("DELETE FROM folders WHERE fld = ? AND id_user = ? AND token_user = ?");
-	$stmt->bind_param('sis', $cid, $_SESSION['id'], $token);
+	$stmt = $mysqli->prepare("DELETE FROM folders WHERE fld = ? ");
+	$stmt->bind_param('s', $cid);
 	$stmt->execute();
 	
 }
@@ -346,9 +370,16 @@ function deleteFilesDB($cid) {
 
 	$token = getInfo('token', 'usuarios', 'id', $_SESSION['id']);
 
-	$stmt = $mysqli->prepare("DELETE FROM files WHERE fld = ? AND id_user = ? AND token_user = ?");
-	$stmt->bind_param('sis', $cid, $_SESSION['id'], $token);
-	$stmt->execute();
+	if ($_SESSION["id_tipo"]==2) {
+		$stmt = $mysqli->prepare("DELETE FROM files WHERE fld = ? AND id_user = ? AND token_user = ?");
+		$stmt->bind_param('sis', $cid, $_SESSION['id'], $token);
+		$stmt->execute();
+	} else {
+		$stmt = $mysqli->prepare("DELETE FROM files WHERE fld = ? ");
+		$stmt->bind_param('s', $cid);
+		$stmt->execute();
+	}
+
 
 }
 
@@ -364,10 +395,18 @@ function deleteFile($cid, $type) {
 		unlink($target);
 	}
 
-	$stmt = $mysqli->prepare("DELETE FROM files WHERE id_user = ? AND token_user = ? AND cid = ? AND extension = ? LIMIT 1");
-	$stmt->bind_param('ssss', $_SESSION['id'], $token, $cid, $type);
-	$stmt->execute();
-	$stmt->close();
+	if ($_SESSION['id_tipo']==2) {
+		$stmt = $mysqli->prepare("DELETE FROM files WHERE id_user = ? AND token_user = ? AND cid = ? AND extension = ? LIMIT 1");
+		$stmt->bind_param('ssss', $_SESSION['id'], $token, $cid, $type);
+		$stmt->execute();
+		$stmt->close();
+	} else {
+		$stmt = $mysqli->prepare("DELETE FROM files WHERE cid = ? AND extension = ? LIMIT 1");
+		$stmt->bind_param('ss', $cid, $type);
+		$stmt->execute();
+		$stmt->close();
+	}
+	
 }
 
 function deleteFolder($cid) {
@@ -382,10 +421,18 @@ function deleteFolder($cid) {
 		deleteDirectory($target);
 	}
 
-	$stmt = $mysqli->prepare("DELETE FROM folders WHERE id_user = ? AND token_user = ? AND cid = ? LIMIT 1");
-	$stmt->bind_param('sss', $_SESSION['id'], $token, $cid);
-	$stmt->execute();
-	$stmt->close();
+	if ($_SESSION['id_tipo']==2) {
+		$stmt = $mysqli->prepare("DELETE FROM folders WHERE id_user = ? AND token_user = ? AND cid = ? LIMIT 1");
+		$stmt->bind_param('sss', $_SESSION['id'], $token, $cid);
+		$stmt->execute();
+		$stmt->close();
+	} else {
+		$stmt = $mysqli->prepare("DELETE FROM folders WHERE cid = ? LIMIT 1");
+		$stmt->bind_param('s', $cid);
+		$stmt->execute();
+		$stmt->close();
+	}
+	
 
 	deleteFoldersDB($cid);
 }
@@ -423,8 +470,8 @@ function getAddressFolder($info, $table, $whereParam, $whereValue) {
 
 	$token = getInfo('token', 'usuarios', 'id' , $_SESSION['id']);
 
-	$stmt = $mysqli->prepare("SELECT $info FROM $table WHERE $whereParam = ? AND id_user = ? AND token_user = ? LIMIT 1");
-	$stmt->bind_param('sis', $whereValue, $_SESSION['id'], $token);
+	$stmt = $mysqli->prepare("SELECT $info FROM $table WHERE $whereParam = ?");
+	$stmt->bind_param('s', $whereValue);
 	$stmt->execute();
 	$stmt->store_result();
 	$rows = $stmt->num_rows;

@@ -20,13 +20,24 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 	
 	$index = $_GET['cid'];
 	$name = getInfo('name', 'folders', 'cid', $index);
+	
 
+	if (isset($_GET['categoria']) && !empty($_GET['estado'])) {
+		$cat = $_GET['categoria'] ;
+		$state = $_GET['estado'];
+		
+		if($_SESSION['id_tipo']!=2){
+			$filesUser= getAllFiles($index);
+			$foldersUser = getAllFolders($index, $cat, $state);
+		}
+	}
+	
 	$filesUser = getFiles($index);
 	$foldersUser = getFolder($index);
-	if($_SESSION['id_tipo']!=2){
-		$filesUser= getAllFiles($index);
-		$foldersUser = getAllFolders($index);
-	}
+		if($_SESSION['id_tipo']!=2){
+			$filesUser= getAllFiles($index);
+			$foldersUser = getAllFolders($index);
+		}
 
 	if (!folderExist($index)) {
 		echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'document/404.php">';
@@ -53,8 +64,10 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 
 		$index = $mysqli->real_escape_string($_POST['index']);
 		$nameFolder =  $mysqli->real_escape_string($_POST['folder']);
-		
-		createFolder($nameFolder, $index);
+		$estado =  $mysqli->real_escape_string($_POST['estado']);
+		$categoria =  $mysqli->real_escape_string($_POST['categoria']);
+			
+		createFolder($nameFolder, $index,$estado,$categoria);
 
 	} else  {
 		echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'document/404.php">';
@@ -101,13 +114,40 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 		<nav>
 			<ul>
 				<?php if ($_SESSION['id_tipo'] == 3) { ?>
-					<li><a href="<?php echo SERVERURL; ?>home.php" class="navActive"><i class="far fa-file"></i><span>My files</span></a></li>
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
+					<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>exit.php"><i class="fas fa-sign-out-alt"></i><span>Exit</span></a></li>
 				<?php } ?>
 
 				<?php if ($_SESSION['id_tipo'] == 1 || $_SESSION['id_tipo'] == 2) { ?>
+					<details>
+						<summary>Details</summary>
+						<form action="<?php echo SERVERURL; ?>page.php" method="get">
+							<input type="text" name="cid" hidden value="<?php echo $index ?>">
+							<label for="estado">Estado del caso
+							<select name="estado" id="estado">
+								<option value="Abierto">Abierto</option>
+								<option value="Cerrado">Cerrado</option>
+								<option value="Congelado">Congelado</option>
+								<option value="Pendiente">Pendiente</option>
+							</select>
+						</label>
+							<label for="estado">Categoria del caso
+							<select name="categoria" id="categoria">
+								<option value="Judicial">Judicial</option>
+								<option value="Divorcio">Divorcio</option>
+								<option value="Violentos">Violentos</option>
+								<option value="Menores">Menores</option>
+								<option value="Entre otros">Entre otros</option>
+							</select></label>
+							<a id="cancelBtn" href="home.php">Cancelar</a>
+							<input id="searchBtn" type="submit" value="Buscar">
+						</form>
+					</details>
+					<hr>
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 
-				<li><a href="<?php echo SERVERURL; ?>home.php" class="navActive"><i class="far fa-file"></i><span>My files</span></a></li>
+				<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>user/account.php"><i class="far fa-user"></i><span>Account</span></a></li>
 				<?php if ($_SESSION['id_tipo'] == 1) { ?>
 				<li><a href="<?php echo SERVERURL; ?>register.php"><i class="fas fa-user-plus"></i><span>Register User</span></a></li>
@@ -126,7 +166,8 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 	<input type="checkbox" name="btnuserImage" id="btnuserImage">
 	
 	<section class="header">
-		<header><label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Records <strong>Buffet<i class="fas fa-lock"></i></strong></span></header>
+		<header><button onClick="history_back()"><i class="fas fa-arrow-left"></i></button>
+   <label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Records <strong>Buffet<i class="fas fa-lock"></i></strong></span></header>
 		
 		<div class="userImage">
 			<label for="btnuserImage" id="labeluserImage">
@@ -171,6 +212,22 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 					<input type="hidden" name="index" id="index" value="<?php echo $index?>">
 					<p class="title-login"><i class="fas fa-folder"></i>New folder</p>
 					<input type="text" name="folder" id="folder" required>
+					<label for="estado">Estado del caso
+							<select name="estado" id="estado">
+								<option value="Abierto">Abierto</option>
+								<option value="Cerrado">Cerrado</option>
+								<option value="Congelado">Congelado</option>
+								<option value="Pendiente">Pendiente</option>
+							</select>
+						</label>
+							<label for="estado">Categoria del caso
+							<select name="categoria" id="categoria">
+								<option value="Judicial">Judicial</option>
+								<option value="Divorcio">Divorcio</option>
+								<option value="Violentos">Violentos</option>
+								<option value="Menores">Menores</option>
+								<option value="Entre otros">Entre otros</option>
+							</select></label>
 					<input type="submit" value="Create Folder" name="CreateFolder">
 				</form>	
 			</div>	
@@ -228,10 +285,14 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 	</section> 
 	
 	<footer>
-		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Records Buffet</i>&nbsp;&copy;
-		</a>
+		 
 	</footer>
+	<script>
+		        function history_back() {
+            window.history.back();
+        } 
+
+	</script>
 
 </body>
 </html>

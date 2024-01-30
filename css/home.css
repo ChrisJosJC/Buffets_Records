@@ -347,3 +347,52 @@ input:focus {
 		font-size: .8rem;
 	}
 }
+
+details {
+	margin-left: 20px;
+	margin-bottom: 10px;
+
+
+	summary {
+		font-weight: 700;
+	}
+
+	label {
+		display: block;
+		margin-top: 15px;
+
+		select {
+			margin-top: 10px;
+			border: #0002 solid 1px;
+		}
+	}
+
+	#searchBtn {
+		background-color: green;
+		border: 1px solid transparent;
+		color: #fff;
+		border-radius: 4px;
+		padding: 5px 6px;
+		width: 40%;
+	}
+
+	#cancelBtn {
+		text-decoration: none;
+		background-color: #df080f;
+		border: 1px solid transparent;
+		color: #fff;
+		border-radius: 4px;
+		padding: 6px 6px;
+		width: 50%;
+	}
+}
+
+hr {
+	display: inline-block;
+	width: 90%;
+	margin-left: 10px;
+}
+
+[for="estado"] {
+	margin-bottom: 10px;
+}

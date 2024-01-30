@@ -204,12 +204,13 @@ if (isset($_POST['Change'])) {
 		<nav>
 			<ul>
 				<?php if ($_SESSION['id_tipo'] == 3) { ?>
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>exit.php"><i class="fas fa-sign-out-alt"></i><span>Exit</span></a></li>
 				<?php } ?>
 
 				<?php if ($_SESSION['id_tipo'] == 1 || $_SESSION['id_tipo'] == 2) { ?>
-
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>user/account.php"><i class="far fa-user"></i><span>Account</span></a></li>
 				<?php if ($_SESSION['id_tipo'] == 1) { ?>
@@ -229,7 +230,8 @@ if (isset($_POST['Change'])) {
 	<input type="checkbox" name="btnuserImage" id="btnuserImage">
 	
 	<section class="header">
-		<header><label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Records <strong>Buffet<i class="fas fa-lock"></i></strong></span></header>
+		<header><button onClick="history_back()"><i class="fas fa-arrow-left"></i></button>
+   <label for="btnnavbar"><i class="fas fa-bars"></i></label><span>&nbsp;Records <strong>Buffet<i class="fas fa-lock"></i></strong></span></header>
 		
 		<div class="userImage">
 			<label for="btnuserImage" id="labeluserImage">
@@ -294,10 +296,12 @@ if (isset($_POST['Change'])) {
 	</section> 
 	
 	<footer>
-		<a href="<?php echo MYWEB ?>" target="_BLANK">
-			<i>Records Buffet</i>&nbsp;&copy;
-		</a>
+		 
 	</footer>
-
+	<script>
+        function history_back() {
+            window.history.back();
+        } 
+    </script>
 </body>
 </html>

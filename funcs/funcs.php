@@ -250,7 +250,7 @@ function login($usuario, $password) {
 				$_SESSION['email'] = $correo;
 				$_SESSION['image'] = $imagen;
 
-				echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'home.php">';
+				echo '<meta http-equiv="refresh" content="0; url='.SERVERURL.'dashboard.php">';
 
 
 			} else {
