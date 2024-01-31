@@ -64,7 +64,7 @@ function getAllFolders($index,$cat='NULL',$state='NULL') {
 		$stmt->bind_param('s', $index);
 		
 	} else {
-		$stmt = $mysqli->prepare("SELECT * FROM folders WHERE fld = ? AND categoria = ? AND estado = ?");
+		$stmt = $mysqli->prepare("SELECT * FROM folders WHERE fld = ? AND categoria like '?%' AND estado like '?%'");
 		$stmt->bind_param('sss', $index,$cat,$state);
 	}
 	
@@ -78,7 +78,7 @@ function getAllFolders($index,$cat='NULL',$state='NULL') {
 
 	return $rows;
 }
-function getFolder($index) {
+function getFolder($index,$cat='NULL',$state='NULL') {
 
 	global $mysqli;
 
@@ -86,8 +86,16 @@ function getFolder($index) {
 
 	$token = getInfo('token', 'usuarios', 'id' , $_SESSION['id']);
 
-	$stmt = $mysqli->prepare("SELECT * FROM folders WHERE id_user = ? AND token_user = ? AND fld = ?");
-	$stmt->bind_param('iss', $_SESSION['id'], $token, $index);
+	if ($cat=='NULL' && $state == 'NULL') {
+		$stmt = $mysqli->prepare("SELECT * FROM folders WHERE id_user = ? AND token_user = ? AND fld = ?");
+		$stmt->bind_param('iss', $_SESSION['id'], $token, $index);
+		
+	} else {
+		$stmt = $mysqli->prepare("SELECT * FROM folders WHERE fld = ? AND id_user = ? AND token_user = ? AND categoria like '?%' AND estado like '?%'");
+		$stmt->bind_param('sss', $index,$cat,$state);
+	}
+
+
 	$stmt->execute();
 	$result = $stmt->get_result();
 
