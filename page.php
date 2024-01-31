@@ -138,7 +138,7 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 								<option value="Divorcio">Divorcio</option>
 								<option value="Violentos">Violentos</option>
 								<option value="Menores">Menores</option>
-								<option value="Entre otros">Entre otros</option>
+								<option value="">Entre otros</option>
 							</select></label>
 							<a id="cancelBtn" href="home.php">Cancelar</a>
 							<input id="searchBtn" type="submit" value="Buscar">

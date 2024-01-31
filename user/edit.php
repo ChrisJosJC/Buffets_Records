@@ -26,7 +26,7 @@ if(isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['token']) && !empty(
 	if (userExistIdToken($id, $token)) {
 		$email = getInfo('correo', 'usuarios', 'id', $id);
 		$typeUser = getInfo('id_tipo', 'usuarios', 'id', $id);
-		$typeUser = $typeUser == 1 ? "Admin" : "User";
+		$typeUser = $typeUser == 1 ? "Admin" : "Abogado";
 		$Activate = getInfo('activacion', 'usuarios', 'id', $id);
 		$Activate = $Activate == 1 ? "Active" : "Desactive";
 	} else {
@@ -45,7 +45,7 @@ if(isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['token']) && !empty(
 
 		if (userExistIdToken($userId, $token)) {
 
-			$typeUser = $typeUser == "Admin" ? 1 : $typeUser == "Abogado" ? 2 : 3;
+			$typeUser = $typeUser == "Admin" ? 1 : "Abogados";
 			$Activate = $Activate == "Active" ? 1 : 0;
 
 			if (editUser($userId, $token, $typeUser, $Activate)) {
