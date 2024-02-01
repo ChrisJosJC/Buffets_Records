@@ -94,6 +94,31 @@ if (isset($_POST['CreateFolder'])) {
 	<aside class="navbar">
 		<nav>
 			<ul>
+				<details>
+					<summary>Buscar detalles del caso</summary>
+					<form action="<?php echo SERVERURL; ?>home.php" method="get">
+						<label for="estado">Estado del caso
+						<select name="estado" id="estado">
+							<option value="Abierto">Abierto</option>
+							<option value="Cerrado">Cerrado</option>
+							<option value="Congelado">Congelado</option>
+							<option value="Pendiente">Pendiente</option>
+							<option selected value="">Ninguno de los anteriores</option>
+						</select>
+					</label>
+					<label for="estado">Categoria del caso
+						<select name="categoria" id="categoria">
+							<option value="Judicial">Judicial</option>
+							<option value="Divorcio">Divorcio</option>
+							<option value="Violentos">Violentos</option>
+							<option value="Menores">Menores</option>
+							<option selected value="">Ninguno de los anteriores</option>
+						</select></label>
+						<a id="cancelBtn" href="home.php">Cancelar</a>
+						<input id="searchBtn" type="submit" value="Buscar">
+					</form>
+				</details>
+				<hr>
 				<?php if ($_SESSION['id_tipo'] == 3) { ?>
 					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>home.php" class="navActive"><i class="far fa-file"></i><span>My files</span></a></li>
@@ -101,30 +126,6 @@ if (isset($_POST['CreateFolder'])) {
 				<?php } ?>
 
 				<?php if ($_SESSION['id_tipo'] == 1 || $_SESSION['id_tipo'] == 2) { ?>
-					<details>
-						<summary>Buscar detalles del caso</summary>
-						<form action="<?php echo SERVERURL; ?>home.php" method="get">
-							<label for="estado">Estado del caso
-							<select name="estado" id="estado">
-								<option value="Abierto">Abierto</option>
-								<option value="Cerrado">Cerrado</option>
-								<option value="Congelado">Congelado</option>
-								<option value="Pendiente">Pendiente</option>
-								<option selected value="">Ninguno de los anteriores</option>
-							</select>
-						</label>
-						<label for="estado">Categoria del caso
-							<select name="categoria" id="categoria">
-								<option value="Judicial">Judicial</option>
-								<option value="Divorcio">Divorcio</option>
-								<option value="Violentos">Violentos</option>
-								<option value="Menores">Menores</option>
-								<option selected value="">Ninguno de los anteriores</option>
-							</select></label>
-							<a id="cancelBtn" href="home.php">Cancelar</a>
-							<input id="searchBtn" type="submit" value="Buscar">
-						</form>
-					</details>
 					<li><a href="<?php echo SERVERURL; ?>dashboard.php" ><i class="fas fa-chart-line"></i></i><span>Dashboard</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>home.php" class="navActive"><i class="far fa-file"></i><span>My files</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>user/account.php"><i class="far fa-user"></i><span>Account</span></a></li>

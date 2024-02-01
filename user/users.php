@@ -56,12 +56,13 @@ $users = getUsers();
 		<nav>
 			<ul>
 				<?php if ($_SESSION['id_tipo'] == 3) { ?>
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>exit.php"><i class="fas fa-sign-out-alt"></i><span>Exit</span></a></li>
 				<?php } ?>
 
 				<?php if ($_SESSION['id_tipo'] == 1 || $_SESSION['id_tipo'] == 2) { ?>
-
+					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
 				<li><a href="<?php echo SERVERURL; ?>user/account.php"><i class="far fa-user"></i><span>Account</span></a></li>
 				<?php if ($_SESSION['id_tipo'] == 1) { ?>

@@ -113,6 +113,31 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 		
 		<nav>
 			<ul>
+				<details>
+					<summary>Details</summary>
+					<form action="<?php echo SERVERURL; ?>page.php" method="get">
+						<input type="text" name="cid" hidden value="<?php echo $index ?>">
+						<label for="estado">Estado del caso
+						<select name="estado" id="estado">
+							<option value="Abierto">Abierto</option>
+							<option value="Cerrado">Cerrado</option>
+							<option value="Congelado">Congelado</option>
+							<option value="Pendiente">Pendiente</option>
+						</select>
+					</label>
+						<label for="estado">Categoria del caso
+						<select name="categoria" id="categoria">
+							<option value="Judicial">Judicial</option>
+							<option value="Divorcio">Divorcio</option>
+							<option value="Violentos">Violentos</option>
+							<option value="Menores">Menores</option>
+							<option value="">Entre otros</option>
+						</select></label>
+						<a id="cancelBtn" href="home.php">Cancelar</a>
+						<input id="searchBtn" type="submit" value="Buscar">
+					</form>
+				</details>
+				<hr>
 				<?php if ($_SESSION['id_tipo'] == 3) { ?>
 					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 					<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>
@@ -120,31 +145,6 @@ if (isset($_GET['cid']) && !empty($_GET['cid'])) {
 				<?php } ?>
 
 				<?php if ($_SESSION['id_tipo'] == 1 || $_SESSION['id_tipo'] == 2) { ?>
-					<details>
-						<summary>Details</summary>
-						<form action="<?php echo SERVERURL; ?>page.php" method="get">
-							<input type="text" name="cid" hidden value="<?php echo $index ?>">
-							<label for="estado">Estado del caso
-							<select name="estado" id="estado">
-								<option value="Abierto">Abierto</option>
-								<option value="Cerrado">Cerrado</option>
-								<option value="Congelado">Congelado</option>
-								<option value="Pendiente">Pendiente</option>
-							</select>
-						</label>
-							<label for="estado">Categoria del caso
-							<select name="categoria" id="categoria">
-								<option value="Judicial">Judicial</option>
-								<option value="Divorcio">Divorcio</option>
-								<option value="Violentos">Violentos</option>
-								<option value="Menores">Menores</option>
-								<option value="">Entre otros</option>
-							</select></label>
-							<a id="cancelBtn" href="home.php">Cancelar</a>
-							<input id="searchBtn" type="submit" value="Buscar">
-						</form>
-					</details>
-					<hr>
 					<li><a href="<?php echo SERVERURL; ?>dashboard.php"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
 
 				<li><a href="<?php echo SERVERURL; ?>home.php"><i class="far fa-file"></i><span>My files</span></a></li>

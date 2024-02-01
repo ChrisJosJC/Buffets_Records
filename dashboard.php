@@ -155,7 +155,8 @@ if (isset($_POST['CreateFolder'])) {
     data: {
       labels: ["Casos registrados", "Usuarios","Descargas","Casos Resueltos"],
       datasets: [{
-        label: '# of Votes',
+        label: '# of tasks',
+		// backgroundColor:'#b12',
         data: [<?php foreach ($Stats as $val) {echo $val.",";} ?>],
         borderWidth: 1
       }]
