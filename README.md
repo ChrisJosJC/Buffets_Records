@@ -1,6 +1,4 @@
-# SISTEMA BASADO EN EL PROTOTIPO DE CODIGO 1 
-
-El mismo prototipo de código se ha usado para desarrollar dos sistemas, que solo divergen en algunas funciones adicionales uno del otro. El primer sistema es una web personal y el segundo sistema es un sistema de gestión de archivos. EL presente es el sistema geestor de archivos "Private server"... Para ver el otro sistema consulta mi repositorio buscando "PortafolioSystem".
+# SISTEMA DE MANEJO DE CASOS
 
 # Instrucciones para instalar XAMPP e importar una base de datos existente
 
